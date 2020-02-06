@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     Animator myAnimator;
 
     public bool isOnGround = false;
+    public bool canAttack = true;
     [Header("Physics")]
     public float speed;
     public float jumpForce;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         Movement();
         Jump();
+        Attack();
         Gravity();
     }
 
@@ -61,6 +63,19 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             myAnimator.SetBool("Jump", false);
         }
+    }
+
+    private void Attack() {
+        if (Input.GetButton("Fire1") && canAttack == true) {
+            StartCoroutine("DoAttack",0.1f);
+        }
+    }
+
+    IEnumerator DoAttack(float time) {
+        canAttack = false;
+        myAnimator.SetTrigger("Attack");
+        yield return new WaitForSeconds(time);
+        canAttack = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision){
