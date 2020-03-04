@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    Rigidbody2D myBody;
-    Animator myAnimator;
+    public Transform handCannon;
+    public GameObject PlayerProjectilePrefab;
 
     public bool isOnGround = false;
     public bool canAttack = true;
+
     [Header("Physics")]
     public float speed;
     public float jumpForce;
     public float gravityForce;
+
+    Rigidbody2D myBody;
+    Animator myAnimator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,28 +62,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision){
-        if (isOnGround == false) {
-            isOnGround = true;
-            myAnimator.SetBool("Jump", false);
-        }
-    }
-
     private void Attack() {
         if (Input.GetButton("Fire1") && canAttack == true) {
-            StartCoroutine("DoAttack",0.1f);
+            StartCoroutine("DoAttack",0.5f);
         }
     }
 
     IEnumerator DoAttack(float time) {
         canAttack = false;
         myAnimator.SetTrigger("Attack");
+        Instantiate(PlayerProjectilePrefab, handCannon.position, handCannon.rotation);
         yield return new WaitForSeconds(time);
         canAttack = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isOnGround == false && 
+            collision.gameObject.layer == 8)
+        {
+            isOnGround = true;
+            myAnimator.SetBool("Jump", false);
+        }
+    }
     private void OnTriggerExit2D(Collider2D collision){
-        if (isOnGround == true) {
+        if (isOnGround == true &&
+            collision.gameObject.layer == 8) {
             isOnGround = false;
             myAnimator.SetBool("Jump", true);
         }

@@ -210,7 +210,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cc2848d6d92b064789fe0542d18aa9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handCannon: {fileID: 6855659084292416074}
+  PlayerProjectilePrefab: {fileID: 2573451027398507336, guid: e7675e133eb417b4dbe6fd63501b0682,
+    type: 3}
   isOnGround: 0
+  canAttack: 1
   speed: 200
   jumpForce: 700
   gravityForce: 10
