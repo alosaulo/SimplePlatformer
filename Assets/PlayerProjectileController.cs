@@ -13,10 +13,11 @@ public class PlayerProjectileController : MonoBehaviour
     void Start()
     {
         myBody = GetComponent<Rigidbody2D>();
-
-        if(transform.position.y == 0)
+        Debug.Log(transform.rotation.y);
+        if(transform.rotation.y == 0)
             myBody.AddRelativeForce(Vector2.right * Speed);
-        if (transform.position.y == 180)
+        if (transform.rotation.y == -1 ||
+            transform.rotation.y == 1)
             myBody.AddRelativeForce(Vector2.left * Speed);
 
         Destroy(gameObject, 3);
